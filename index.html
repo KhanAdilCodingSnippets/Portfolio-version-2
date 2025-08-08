@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adil Firoz Khan // Developer & Author</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Poppins:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1b26;
+            /* Dark Theme Background */
+            color: #a9b1d6;
+            /* Light Gray Text */
+            background-image:
+                linear-gradient(rgba(110, 118, 153, 0.05) 1px, transparent 1px),
+                linear-gradient(to right, rgba(110, 118, 153, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* --- Colors inspired by Tokyo Night theme --- */
+        .color-keyword {
+            color: #bb9af7;
+        }
+
+        /* Purple */
+        .color-string {
+            color: #9ece6a;
+        }
+
+        /* Green */
+        .color-function {
+            color: #7aa2f7;
+        }
+
+        /* Blue */
+        .color-comment {
+            color: #565f89;
+        }
+
+        /* Grayish Blue */
+        .color-variable {
+            color: #ff9e64;
+        }
+
+        /* Orange */
+        .color-bg-light {
+            background-color: #24283b;
+        }
+
+        /* Lighter Dark */
+        .color-border {
+            border-color: #414868;
+        }
+
+        /* Border color */
+
+        /* --- Typing Animation --- */
+        .typing-cursor {
+            display: inline-block;
+            width: 10px;
+            background-color: #9ece6a;
+            /* Green */
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-animate.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .header-scrolled {
+            background-color: rgba(26, 27, 38, 0.8);
+            /* Dark background with opacity */
+            backdrop-filter: blur(10px);
+        }
+
+        .card {
+            background-color: #1f2335;
+            border: 1px solid #414868;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #7aa2f7;
+            /* Blue */
+            box-shadow: 0 0 20px rgba(122, 162, 247, 0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+            padding-left: 2.5rem;
+            border-left: 2px solid #414868;
+            /* color-border */
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            /* Adjusted for better alignment */
+            top: 0.25rem;
+            height: 1rem;
+            width: 1rem;
+            background-color: #7aa2f7;
+            /* color-function */
+            border-radius: 50%;
+            border: 3px solid #1a1b26;
+            /* body background */
+        }
+
+        .color-bg-light .timeline-dot {
+            border-color: #24283b;
+            /* Lighter dark background */
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent">
+        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold">
+                <span class="color-function">AdilFK</span><span class="text-white">/</span><span
+                    class="color-string">Portfolio</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-sm">
+                <a href="#about"
+                    class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/about</a>
+                <a href="#education"
+                    class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/education</a>
+                <a href="#skills"
+                    class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/skills</a>
+                <a href="#projects"
+                    class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/projects</a>
+                <a href="#writing"
+                    class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/writing</a>
+                <a href="#contact"
+                    class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md text-xs">contact()</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none z-50">
+                <i id="hamburger-icon" class="fas fa-bars fa-lg color-keyword"></i>
+                <i id="close-icon" class="fas fa-times fa-lg color-keyword hidden"></i>
+            </button>
+        </nav>
+    </header>
+
+    <div id="mobile-menu" class="hidden fixed inset-0 color-bg-light z-40 flex-col items-center justify-center">
+        <div class="flex flex-col items-center space-y-8 font-mono text-2xl">
+            <a href="#about" class="nav-link-mobile hover:color-keyword transition-colors">/about_me</a>
+            <a href="#education" class="nav-link-mobile hover:color-keyword transition-colors">/education</a>
+            <a href="#skills" class="nav-link-mobile hover:color-keyword transition-colors">/skills</a>
+            <a href="#projects" class="nav-link-mobile hover:color-keyword transition-colors">/my_projects</a>
+            <a href="#writing" class="nav-link-mobile hover:color-keyword transition-colors">/writing</a>
+            <a href="#contact" class="nav-link-mobile hover:color-keyword transition-colors">/get_in_touch</a>
+        </div>
+    </div>
+
+
+    <main>
+        <section id="hero" class="min-h-screen flex items-center justify-center text-left relative px-4">
+            <div class="container mx-auto sm:px-6 z-10 w-full max-w-4xl">
+                <div class="color-bg-light border color-border rounded-lg shadow-2xl shadow-black/30 overflow-hidden">
+                    <div class="bg-gray-800/50 px-4 py-2 border-b color-border flex items-center gap-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <p class="text-xs text-gray-400 ml-auto">/bin/zsh</p>
+                    </div>
+                    <div class="p-6 sm:p-8 font-mono">
+                        <div class="flex items-center gap-2 text-sm sm:text-base">
+                            <span class="color-keyword">AdilFK@Portfolio</span>
+                            <span class="color-function">~ %</span>
+                        </div>
+                        <div class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold h-auto">
+                            <span id="typing-text" class="text-white"></span><span
+                                class="typing-cursor align-bottom"></span>
+                        </div>
+                        <p class="text-sm sm:text-base mt-4 font-sans">
+                            <span class="color-comment">// Building elegant digital solutions and crafting compelling
+                                stories.</span><br>
+                            <span class="color-comment">// Based in Vapi, Gujarat.</span>
+                        </p>
+                        <div class="mt-8 flex items-center gap-6">
+                            <a href="https://github.com/KhanAdilCodingSnippets" target="_blank"
+                                class="hover:color-keyword text-2xl transition-colors"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/adil-khan-9b257a282/" target="_blank"
+                                class="hover:color-keyword text-2xl transition-colors"><i
+                                    class="fab fa-linkedin"></i></a>
+                            <a href="https://www.instagram.com/khan_adil_firoz/" target="_blank"
+                                class="hover:color-keyword text-2xl transition-colors"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 sm:py-24 md:py-32 scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-keyword">init --about-me</h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// A little bit about my journey</p>
+                </div>
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                    <div class="lg:w-2/5 flex justify-center">
+                        <div class="card p-2">
+                            <img src="IMG_4865.JPG" alt="A professional portrait of Adil Firoz Khan"
+                                class="rounded-md w-full max-w-sm">
+                        </div>
+                    </div>
+                    <div class="lg:w-3/5 text-base sm:text-lg space-y-5 font-sans">
+                        <p>Hello! I'm Adil Firoz Khan, a passionate software developer and published author. My journey
+                            in tech is driven by a desire to build meaningful and efficient digital solutions.
+                            Currently, I am honing my skills in software development, focusing on creating robust and
+                            user-friendly applications.</p>
+                        <p>Alongside my technical pursuits, I channel my creativity into writing. I've authored two
+                            non-fiction books and find poetry to be a powerful medium of expression. I believe that both
+                            coding and writing are powerful tools for storytelling and problem-solving, and I thrive at
+                            the intersection of these two worlds.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="py-20 sm:py-24 md:py-32 color-bg-light scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-variable">history | grep "Education"
+                    </h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// My academic background</p>
+                </div>
+                <div class="max-w-3xl mx-auto">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-lg sm:text-xl font-bold color-keyword mb-1">Diploma in Vocational (Software
+                            Development)</h3>
+                        <p class="text-sm sm:text-base color-function mb-3">Laxmi Institute of Technology (GTU) | 2024 -
+                            Present</p>
+                        <ul class="list-none space-y-2 text-sm sm:text-base font-sans">
+                            <li><span class="color-string mr-2">→</span><span class="font-semibold text-white">GTU Rank
+                                    1</span> in Semester 1 & 2.</li>
+                            <li><span class="color-string mr-2">→</span><span class="font-semibold text-white">GTU Rank
+                                    2</span> in Semester 3 & 4.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-lg sm:text-xl font-bold color-keyword mb-1">12th Grade (Science, Biology)</h3>
+                        <p class="text-sm sm:text-base color-function mb-2">St. Xavier's High School, Vapi</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-lg sm:text-xl font-bold color-keyword mb-1">10th Grade</h3>
+                        <p class="text-sm sm:text-base color-function mb-2">St. Xavier's High School, Vapi</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20 sm:py-24 md:py-32 scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-function">./load_skills.sh</h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// My technical toolkit</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto font-mono">
+                    <div class="card p-4 text-center text-sm sm:text-base"><span class="color-string">'HTML'</span>
+                    </div>
+                    <div class="card p-4 text-center text-sm sm:text-base"><span class="color-string">'CSS'</span></div>
+                    <div class="card p-4 text-center text-sm sm:text-base"><span
+                            class="color-string">'JavaScript'</span></div>
+                    <div class="card p-4 text-center text-sm sm:text-base"><span class="color-string">'SQL'</span></div>
+                    <div class="card p-4 text-center text-sm sm:text-base"><span class="color-string">'Git'</span></div>
+                    <div class="card p-4 text-center text-sm sm:text-base"><span class="color-string">'Firebase'</span>
+                    </div>
+                    <div class="card p-4 text-center text-sm sm:text-base"><span class="color-string">'Figma'</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 sm:py-24 md:py-32 color-bg-light scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-variable">ls -l ./projects</h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// A selection of my work</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="card p-6 flex flex-col">
+                        <h4 class="font-mono text-xl color-keyword mb-2">SkyCast</h4>
+                        <p class="font-sans mb-4 text-sm sm:text-base flex-grow">A weather app that’s not about
+                            numbers—it’s about knowing exactly what the sky feels like. Simple. Beautiful. Instantly
+                            clear.</p>
+                        <div class="mb-4 flex flex-wrap gap-2 text-xs font-mono">
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'HTML'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'Tailwind CSS'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'JavaScript'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'Weather Api'</span>
+                        </div>
+                        <div>
+                            <a href="https://github.com/KhanAdilCodingSnippets" target="_blank"
+                                class="text-sm color-function hover:underline mr-4">view_repo()</a>
+                            <a href="https://skycastbyadil.netlify.app/"
+                                class="text-sm color-function hover:underline">live_demo()</a>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex flex-col">
+                        <h4 class="font-mono text-xl color-keyword mb-2">News Flow</h4>
+                        <p class="font-sans mb-4 text-sm sm:text-base flex-grow">"NewsFlow — real-time headlines in a
+                            clean, modern experience that just works."</p>
+                        <div class="mb-4 flex flex-wrap gap-2 text-xs font-mono">
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'HTML'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'Tailwind CSS'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'JavaScript'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'News API'</span>
+                        </div>
+                        <div>
+                            <a href="https://github.com/KhanAdilCodingSnippets" target="_blank"
+                                class="text-sm color-function hover:underline mr-4">view_repo()</a>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex flex-col">
+                        <h4 class="font-mono text-xl color-keyword mb-2">Bulk QR Generator</h4>
+                        <p class="font-sans mb-4 text-sm sm:text-base flex-grow">Bulk QR Generator — create over 10,000
+                            QR codes at a time, download them all as a single PDF in seconds.</p>
+                        <div class="mb-4 flex flex-wrap gap-2 text-xs font-mono">
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'HTML'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'CSS'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'JavaScript'</span>
+                            <span class="color-string bg-gray-700/50 px-2 py-1 rounded">'Json Library'</span>
+                        </div>
+                        <div>
+                            <a href="https://github.com/KhanAdilCodingSnippets" target="_blank"
+                                class="text-sm color-function hover:underline mr-4">view_repo()</a>
+                            <a href="https://fortune-infotech-qr-generator.netlify.app/"
+                                class="text-sm color-function hover:underline">live_demo()</a>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </section>
+
+        <section id="writing" class="py-20 sm:py-24 md:py-32 scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-string">import Writings from './src'
+                    </h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// My published works and poetic musings</p>
+                </div>
+                <div class="max-w-4xl mx-auto space-y-12">
+                    <div>
+                        <h3 class="font-mono text-2xl color-variable mb-6 text-center sm:text-left">const Books = [...]
+                        </h3>
+                        <div class="space-y-8">
+                            <div class="card p-6">
+                                <h4 class="font-mono text-xl color-keyword mb-2">The Weaving Threads of India</h4>
+                                <p class="font-sans mb-4 text-sm sm:text-base">A deep dive into the unexplored
+                                    significance of Muslims in the cultural tapestry of India. (Nonfiction)</p>
+                                <a href="https://www.amazon.in/Weaving-Threads-India-Unexplored-Significance/dp/B0BWDKZPSP/ref=sr_1_3?crid=1N8NQ3NI5FI48&dib=eyJ2IjoiMSJ9.fqPvG3YUdjWFqwJJrdrmUVOZe9QuU6479yv0zctyE9QkzP-Gue8GC__0tMiqnrKryE7RCNam0fWVe0US_erpEIs-FXQP-EPNvzZxNrrB2sJmiepSgrQR2Q7NEG_28TiuJAwi3GlIFAmwLWphjTTeptQz5gErOdbzXdicRu_d_SWHUrkgA5a4YBzwBzURO26j8AvKKXxaVE7i5GGCQ5_ZOJdhXYCmh3ob-_hghyBYis0.IOuC2M-0Tuo-GaR_EHWQVe9vaXj9yYXuTHoxsWvkdRw&dib_tag=se&keywords=the+weaving+threads+of+india&qid=1754669739&sprefix=the+weaving+threads+of+ind%2Caps%2C241&sr=8-3"
+                                    class="text-sm color-function hover:underline">view_on_amazon()</a>
+                            </div>
+                            <div class="card p-6">
+                                <h4 class="font-mono text-xl color-keyword mb-2">Bytes of Time</h4>
+                                <p class="font-sans mb-4 text-sm sm:text-base">An exploration of computer history and
+                                    the technological forces that shape our world. (Nonfiction)</p>
+                                <a href="https://www.amazon.in/Bytes-Time-journey-Through-Computer-ebook/dp/B0C9J5WPRZ/ref=sr_1_6?crid=SZNHJK09Y712&dib=eyJ2IjoiMSJ9.Wg0ErF-_GXYL-BS8nBAllHXEAJEaF-_wAPYPhcZBEtyGeEgvDaRzXTBmFGacg-KJ6oLZ-BhvK8yG9meVm54fI83U7HR4bVABiWIkuQk_t7QUJr4dSa9HnzmuHEyqqazHFnpRwUGMOuSC5oSRqQY5lPs87K3KjF8WHgzS3CGfkG3ejlEiXKTafmS0R4ktp4BjP_V0XjQ-eKiWc7S2bnLqXY-ResaRSlfBzvMAvC92iYw.0bvEV7cKE6jxbVJgoxg6JMPFSfrCqlyhqXG4t3i67Kk&dib_tag=se&keywords=bytes+of+time&qid=1754669812&sprefix=bytes+of+ti%2Caps%2C261&sr=8-6"
+                                    class="text-sm color-function hover:underline">view_on_amazon()</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-mono text-2xl color-variable mb-6 text-center sm:text-left">const Poetry = [...]
+                        </h3>
+                        <div class="space-y-8">
+                            <div class="card p-6 font-mono text-sm sm:text-base leading-relaxed">
+                                <p class="color-comment">/** Poem: "Jack and Jill" */</p>
+                                <p class="mt-2">Jack and Jill,<br>went up the hill.<br>Just as Friends and <br>Nothing
+                                    still<br>But People Talked<br>And Made It Wrong<br>Turned Pure Bonds<br>To Shameful
+                                    Songs<br>Now Jill Walks Up<br>That Hill Alone<br>Jake's Name Lost<br>Like it was
+                                    never known</p>
+                            </div>
+                            <div class="card p-6 font-mono text-sm sm:text-base leading-relaxed">
+                                <p class="color-comment">/** Poem: "Just Adil" */</p>
+                                <p class="mt-2">You Play in Crowds<br>You make them feel<br>I write in books<br>I never
+                                    seal<br>You paint your world<br>Mine's just teal<br>You change the world<br>I am
+                                    just ADIL</p>
+                            </div>
+                            <div class="card p-6 font-mono text-sm sm:text-base leading-relaxed">
+                                <p class="color-comment">/** Poem: "Those days of Xavier's High" */</p>
+                                <p class="mt-2">Whispers flew in crowded halls<br>Backbench jokes and paper balls<br>A
+                                    glance too soft to call it love<br>Just something small I still think of<br>Though
+                                    college days now pass me by<br>I miss thode days of Xavier's High</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 sm:py-24 md:py-32 scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-keyword">contact.dispatch()</h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// Let's build something together</p>
+                </div>
+                <div class="max-w-xl mx-auto card p-6 sm:p-8">
+                    <form action="https://formspree.io/f/xeokzenp" method="POST" class="w-full space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm color-function mb-1 font-mono">_name:</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full p-3 rounded-md bg-gray-800/50 border color-border focus:border-blue-400 focus:ring-blue-400/30 focus:ring-2 outline-none">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm color-function mb-1 font-mono">_email:</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full p-3 rounded-md bg-gray-800/50 border color-border focus:border-blue-400 focus:ring-blue-400/30 focus:ring-2 outline-none">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm color-function mb-1 font-mono">_message:</label>
+                            <textarea id="message" name="message" rows="5" required
+                                class="w-full p-3 rounded-md bg-gray-800/50 border color-border focus:border-blue-400 focus:ring-blue-400/30 focus:ring-2 outline-none"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-green-500/20 text-green-300 border border-green-400 font-bold py-3 px-6 rounded-md hover:bg-green-500/30 transition-colors">
+                            submit()
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="color-bg-light border-t color-border">
+        <div class="container mx-auto px-6 py-8 text-center color-comment text-sm font-mono">
+            <div class="flex justify-center gap-8 mb-4">
+                <a href="https://github.com/KhanAdilCodingSnippets" target="_blank"
+                    class="hover:color-keyword text-2xl transition-colors"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/adil-khan-9b257a282/" target="_blank"
+                    class="hover:color-keyword text-2xl transition-colors"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/khan_adil_firoz/" target="_blank"
+                    class="hover:color-keyword text-2xl transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:adilfirozkhan2005@gmail.com" class="hover:color-keyword text-2xl transition-colors"><i
+                        class="fas fa-envelope"></i></a>
+            </div>
+            <p>Process finished with exit code 0</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.getElementById('header');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+            const sections = document.querySelectorAll('main section');
+
+            // --- Header Scroll ---
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('header-scrolled', window.scrollY > 50);
+                header.classList.toggle('border-b', window.scrollY > 50);
+                header.classList.toggle('color-border', window.scrollY > 50);
+            });
+
+            // --- Mobile Menu Toggle ---
+            let isMenuOpen = false;
+            function openMenu() {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+                hamburgerIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                isMenuOpen = true;
+            }
+            function closeMenu() {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                isMenuOpen = false;
+            }
+            function toggleMenu() {
+                isMenuOpen ? closeMenu() : openMenu();
+            }
+
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // --- Active Nav Link on Scroll ---
+            const activeClasses = ['bg-blue-500/20', 'text-blue-300', 'border', 'border-blue-400'];
+            const sectionVisibility = new Map();
+            const observerOptions = {
+                root: null,
+                rootMargin: "-40% 0px -60% 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    sectionVisibility.set(entry.target.id, entry.isIntersecting);
+                });
+
+                let visibleSectionId = null;
+                // Find the first section that is marked as intersecting
+                for (const [id, isVisible] of sectionVisibility.entries()) {
+                    if (isVisible) {
+                        visibleSectionId = id;
+                        break;
+                    }
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove(...activeClasses);
+                    if (link.getAttribute('href') === `#${visibleSectionId}`) {
+                        link.classList.add(...activeClasses);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                sectionVisibility.set(section.id, false);
+                observer.observe(section);
+            });
+
+
+            // --- Scroll Animations for Sections ---
+            const scrollElements = document.querySelectorAll('.scroll-animate');
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        scrollObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            scrollElements.forEach(el => scrollObserver.observe(el));
+
+            // --- Typing Animation ---
+            const typingTextElement = document.getElementById('typing-text');
+            const typingCursor = document.querySelector('.typing-cursor');
+            const words = ["Software Developer", "Published Author", "Poet"];
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentWord = words[wordIndex];
+                const typingSpeed = isDeleting ? 100 : 150;
+                // Set cursor height based on the parent's line-height/font-size
+                typingCursor.style.height = `1em`;
+
+                if (isDeleting) {
+                    typingTextElement.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingTextElement.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    setTimeout(() => isDeleting = true, 2000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                }
+                setTimeout(type, typingSpeed);
+            }
+            type();
+        });
+    </script>
+
+</body>
+
+</html>
