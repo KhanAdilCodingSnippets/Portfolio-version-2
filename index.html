@@ -20,13 +20,20 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #1a1b26;
-            /* Dark Theme Background */
             color: #a9b1d6;
-            /* Light Gray Text */
+        }
+
+        .grid-overlay {
             background-image:
                 linear-gradient(rgba(110, 118, 153, 0.05) 1px, transparent 1px),
                 linear-gradient(to right, rgba(110, 118, 153, 0.05) 1px, transparent 1px);
             background-size: 20px 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
         }
 
         h1,
@@ -39,49 +46,38 @@
             font-family: 'Fira Code', monospace;
         }
 
-        /* --- Colors inspired by Tokyo Night theme --- */
         .color-keyword {
             color: #bb9af7;
         }
 
-        /* Purple */
         .color-string {
             color: #9ece6a;
         }
 
-        /* Green */
         .color-function {
             color: #7aa2f7;
         }
 
-        /* Blue */
         .color-comment {
             color: #565f89;
         }
 
-        /* Grayish Blue */
         .color-variable {
             color: #ff9e64;
         }
 
-        /* Orange */
         .color-bg-light {
             background-color: #24283b;
         }
 
-        /* Lighter Dark */
         .color-border {
             border-color: #414868;
         }
 
-        /* Border color */
-
-        /* --- Typing Animation --- */
         .typing-cursor {
             display: inline-block;
             width: 10px;
             background-color: #9ece6a;
-            /* Green */
             animation: blink 1s infinite;
         }
 
@@ -99,8 +95,16 @@
 
         .scroll-animate {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
+            /* Reduced initial translation for mobile */
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Larger translation for larger screens */
+        @media (min-width: 768px) {
+            .scroll-animate {
+                transform: translateY(30px);
+            }
         }
 
         .scroll-animate.in-view {
@@ -108,9 +112,29 @@
             transform: translateY(0);
         }
 
+        .scroll-animate.in-view .scroll-fade-child {
+            opacity: 0;
+            transform: translateY(15px);
+            /* Reduced initial translation for mobile */
+            animation: fadeInChild 0.6s 0.2s ease-out forwards;
+            animation-delay: var(--delay);
+        }
+
+        @media (min-width: 768px) {
+            .scroll-animate.in-view .scroll-fade-child {
+                transform: translateY(20px);
+            }
+        }
+
+        @keyframes fadeInChild {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .header-scrolled {
             background-color: rgba(26, 27, 38, 0.8);
-            /* Dark background with opacity */
             backdrop-filter: blur(10px);
         }
 
@@ -123,8 +147,73 @@
         .card:hover {
             transform: translateY(-5px);
             border-color: #7aa2f7;
-            /* Blue */
             box-shadow: 0 0 20px rgba(122, 162, 247, 0.1);
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        #hero .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        #terminal-card {
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s infinite;
+            color: #7aa2f7;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-7px);
+            }
+        }
+
+        .photo-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-card .image-container {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .photo-card img,
+        .photo-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .timeline-item {
@@ -132,7 +221,6 @@
             padding-bottom: 3rem;
             padding-left: 2.5rem;
             border-left: 2px solid #414868;
-            /* color-border */
         }
 
         .timeline-item:last-child {
@@ -143,20 +231,20 @@
         .timeline-dot {
             position: absolute;
             left: -0.5rem;
-            /* Adjusted for better alignment */
             top: 0.25rem;
             height: 1rem;
             width: 1rem;
             background-color: #7aa2f7;
-            /* color-function */
             border-radius: 50%;
             border: 3px solid #1a1b26;
-            /* body background */
         }
 
         .color-bg-light .timeline-dot {
             border-color: #24283b;
-            /* Lighter dark background */
+        }
+
+        .like-button .fa-heart.fas {
+            color: #f7768e;
         }
     </style>
 </head>
@@ -180,6 +268,7 @@
                     class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/projects</a>
                 <a href="#writing"
                     class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/writing</a>
+                <a href="#life" class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md">/life</a>
                 <a href="#contact"
                     class="nav-link hover:color-keyword transition-colors px-4 py-1.5 rounded-md text-xs">contact()</a>
             </div>
@@ -197,15 +286,19 @@
             <a href="#skills" class="nav-link-mobile hover:color-keyword transition-colors">/skills</a>
             <a href="#projects" class="nav-link-mobile hover:color-keyword transition-colors">/my_projects</a>
             <a href="#writing" class="nav-link-mobile hover:color-keyword transition-colors">/writing</a>
+            <a href="#life" class="nav-link-mobile hover:color-keyword transition-colors">/life</a>
             <a href="#contact" class="nav-link-mobile hover:color-keyword transition-colors">/get_in_touch</a>
         </div>
     </div>
 
-
     <main>
-        <section id="hero" class="min-h-screen flex items-center justify-center text-left relative px-4">
-            <div class="container mx-auto sm:px-6 z-10 w-full max-w-4xl">
-                <div class="color-bg-light border color-border rounded-lg shadow-2xl shadow-black/30 overflow-hidden">
+        <section id="hero" class="min-h-screen flex items-center justify-center text-left relative overflow-hidden">
+            <canvas id="hero-canvas"></canvas>
+            <div class="grid-overlay"></div>
+
+            <div class="container mx-auto px-4 sm:px-6 z-10 w-full max-w-4xl">
+                <div id="terminal-card"
+                    class="color-bg-light border color-border rounded-lg shadow-2xl shadow-black/30 overflow-hidden">
                     <div class="bg-gray-800/50 px-4 py-2 border-b color-border flex items-center gap-2">
                         <div class="w-3 h-3 bg-red-500 rounded-full"></div>
                         <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
@@ -213,6 +306,11 @@
                         <p class="text-xs text-gray-400 ml-auto">/bin/zsh</p>
                     </div>
                     <div class="p-6 sm:p-8 font-mono">
+                        <div class="flex justify-between items-center text-xs color-comment mb-4">
+                            <span id="last-login"></span>
+                            <span id="live-clock"></span>
+                        </div>
+
                         <div class="flex items-center gap-2 text-sm sm:text-base">
                             <span class="color-keyword">AdilFK@Portfolio</span>
                             <span class="color-function">~ %</span>
@@ -239,38 +337,62 @@
                     </div>
                 </div>
             </div>
+
+            <a href="#about" class="scroll-down">
+                <i class="fas fa-chevron-down fa-2x"></i>
+            </a>
         </section>
 
-        <section id="about" class="py-20 sm:py-24 md:py-32 scroll-animate">
+        <section id="about" class="py-16 sm:py-24 md:py-32 scroll-animate">
             <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-keyword">init --about-me</h2>
                     <p class="color-comment mt-2 text-sm sm:text-base">// A little bit about my journey</p>
                 </div>
                 <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                    <div class="lg:w-2/5 flex justify-center">
-                        <div class="card p-2">
+                    <div class="lg:w-2/5 flex justify-center scroll-fade-child" style="--delay: 0.1s;">
+                        <div class="card p-2 group">
                             <img src="IMG_4865.JPG" alt="A professional portrait of Adil Firoz Khan"
-                                class="rounded-md w-full max-w-sm">
+                                class="rounded-md w-full max-w-sm transition-transform duration-300 group-hover:scale-105"
+                                onerror="this.onerror=null;this.src='https://placehold.co/400x400/1f2335/a9b1d6?text=Adil';">
                         </div>
                     </div>
-                    <div class="lg:w-3/5 text-base sm:text-lg space-y-5 font-sans">
-                        <p>Hello! I'm Adil Firoz Khan, a passionate software developer and published author. My journey
-                            in tech is driven by a desire to build meaningful and efficient digital solutions.
-                            Currently, I am honing my skills in software development, focusing on creating robust and
-                            user-friendly applications.</p>
-                        <p>Alongside my technical pursuits, I channel my creativity into writing. I've authored two
-                            non-fiction books and find poetry to be a powerful medium of expression. I believe that both
-                            coding and writing are powerful tools for storytelling and problem-solving, and I thrive at
-                            the intersection of these two worlds.</p>
+                    <div class="lg:w-3/5 text-base sm:text-lg space-y-6 font-sans">
+                        <p class="scroll-fade-child" style="--delay: 0.3s;">
+                            I'm a creator at heart, fluent in two languages: <strong>code and prose</strong>. For me,
+                            architecting an elegant digital solution brings the same thrill as crafting a compelling
+                            narrative. I believe that whether you're building an app or writing a book, you're
+                            ultimately telling a story.
+                        </p>
+                        <p class="scroll-fade-child" style="--delay: 0.5s;">
+                            Based in Vapi, Gujarat, my journey is a constant exploration of this dual passion. As a
+                            developer, I'm dedicated to building user-centric applications that are both robust and
+                            intuitive. As an author, I've published two non-fiction books, driven by a curiosity to
+                            understand and explain the world around us.
+                        </p>
+                        <div class="card p-4 font-mono text-sm sm:text-base leading-relaxed scroll-fade-child"
+                            style="--delay: 0.7s;">
+                            <p><span class="color-keyword">const</span> <span
+                                    class="color-function">adilFirozKhan</span> = {</p>
+                            <p class="pl-4"> <span class="color-variable">role</span>: [<span
+                                    class="color-string">"Software Developer"</span>, <span
+                                    class="color-string">"Author"</span>],</p>
+                            <p class="pl-4"> <span class="color-variable">philosophy</span>: <span
+                                    class="color-string">"Create with purpose, code with passion."</span>,</p>
+                            <p class="pl-4"> <span class="color-variable">location</span>: <span
+                                    class="color-string">"Vapi, Gujarat"</span>,</p>
+                            <p class="pl-4"> <span class="color-variable">status</span>: <span
+                                    class="color-string">"Always learning."</span></p>
+                            <p>};</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="education" class="py-20 sm:py-24 md:py-32 color-bg-light scroll-animate">
+        <section id="education" class="py-16 sm:py-24 md:py-32 color-bg-light scroll-animate">
             <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-variable">history | grep "Education"
                     </h2>
                     <p class="color-comment mt-2 text-sm sm:text-base">// My academic background</p>
@@ -303,9 +425,9 @@
             </div>
         </section>
 
-        <section id="skills" class="py-20 sm:py-24 md:py-32 scroll-animate">
+        <section id="skills" class="py-16 sm:py-24 md:py-32 scroll-animate">
             <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-function">./load_skills.sh</h2>
                     <p class="color-comment mt-2 text-sm sm:text-base">// My technical toolkit</p>
                 </div>
@@ -325,9 +447,9 @@
             </div>
         </section>
 
-        <section id="projects" class="py-20 sm:py-24 md:py-32 color-bg-light scroll-animate">
+        <section id="projects" class="py-16 sm:py-24 md:py-32 color-bg-light scroll-animate">
             <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-variable">ls -l ./projects</h2>
                     <p class="color-comment mt-2 text-sm sm:text-base">// A selection of my work</p>
                 </div>
@@ -382,14 +504,13 @@
                                 class="text-sm color-function hover:underline">live_demo()</a>
                         </div>
                     </div>
-                   
                 </div>
             </div>
         </section>
 
-        <section id="writing" class="py-20 sm:py-24 md:py-32 scroll-animate">
+        <section id="writing" class="py-16 sm:py-24 md:py-32 scroll-animate">
             <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-string">import Writings from './src'
                     </h2>
                     <p class="color-comment mt-2 text-sm sm:text-base">// My published works and poetic musings</p>
@@ -444,9 +565,94 @@
             </div>
         </section>
 
-        <section id="contact" class="py-20 sm:py-24 md:py-32 scroll-animate">
+        <section id="life" class="py-16 sm:py-24 md:py-32 color-bg-light scroll-animate">
             <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-keyword">cd ../real-life</h2>
+                    <p class="color-comment mt-2 text-sm sm:text-base">// Snapshots from my life beyond the screen</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+
+                    <div class="card photo-card overflow-hidden rounded-lg lg:row-span-2 flex flex-col">
+                        <div class="image-container relative group w-full aspect-[9/16]">
+                            <video src="portVid.mp4" loop autoplay muted playsinline
+                                class="absolute inset-0 w-full h-full object-cover"></video>
+                            <div
+                                class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-end items-start p-3">
+                                <button class="like-button text-white text-xl"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-shrink-0">
+                            <p class="font-sans text-sm">When The Pins Didn't saw it coming :D</p>
+                        </div>
+                    </div>
+
+                    <div class="card photo-card overflow-hidden rounded-lg lg:col-span-2 flex flex-col">
+                        <div class="image-container relative group w-full aspect-video">
+                            <video src="carvid.mp4" loop autoplay muted playsinline
+                                class="absolute inset-0 w-full h-full object-cover"></video>
+                            <div
+                                class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-end items-start p-3">
+                                <button class="like-button text-white text-xl"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-shrink-0">
+                            <p class="font-sans text-sm">And this is why they invented Seatbelts LOL :)</p>
+                        </div>
+                    </div>
+
+                    <div class="card photo-card overflow-hidden rounded-lg flex flex-col">
+                        <div class="image-container relative group w-full aspect-[4/3]">
+                            <img src="grp3.png" alt="A photo of a fun activity"
+                                class="absolute inset-0 w-full h-full object-cover"
+                                onerror="this.onerror=null;this.src='https://placehold.co/400x300/1f2335/a9b1d6?text=Hike';">
+                            <div
+                                class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-end items-start p-3">
+                                <button class="like-button text-white text-xl"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-shrink-0">
+                            <p class="font-sans text-sm">Ear-resistible friendship.</p>
+                        </div>
+                    </div>
+
+                    <div class="card photo-card overflow-hidden rounded-lg flex flex-col">
+                        <div class="image-container relative group w-full aspect-[4/3]">
+                            <img src="GRP2.jpg" alt="A relaxing photo in a cafe"
+                                class="absolute inset-0 w-full h-full object-cover"
+                                onerror="this.onerror=null;this.src='https://placehold.co/400x300/1f2335/a9b1d6?text=Cafe';">
+                            <div
+                                class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-end items-start p-3">
+                                <button class="like-button text-white text-xl"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-shrink-0">
+                            <p class="font-sans text-sm">And that's what we call Negotiating</p>
+                        </div>
+                    </div>
+
+                    <div class="card photo-card overflow-hidden rounded-lg sm:col-span-2 lg:col-span-2 flex flex-col">
+                        <div class="image-container relative group w-full aspect-video">
+                            <img src="GRP4.png" alt="A photo of a group activity"
+                                class="absolute inset-0 w-full h-full object-top"
+                                onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2335/a9b1d6?text=Team';">
+                            <div
+                                class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-end items-start p-3">
+                                <button class="like-button text-white text-xl"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-4 flex-shrink-0">
+                            <p class="font-sans text-sm">Pov:Detention on the way</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-16 sm:py-24 md:py-32 scroll-animate">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold color-keyword">contact.dispatch()</h2>
                     <p class="color-comment mt-2 text-sm sm:text-base">// Let's build something together</p>
                 </div>
@@ -504,75 +710,41 @@
             const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
             const sections = document.querySelectorAll('main section');
 
-            // --- Header Scroll ---
             window.addEventListener('scroll', () => {
                 header.classList.toggle('header-scrolled', window.scrollY > 50);
                 header.classList.toggle('border-b', window.scrollY > 50);
                 header.classList.toggle('color-border', window.scrollY > 50);
             });
 
-            // --- Mobile Menu Toggle ---
             let isMenuOpen = false;
-            function openMenu() {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('flex');
-                hamburgerIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
-                isMenuOpen = true;
-            }
-            function closeMenu() {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-                isMenuOpen = false;
-            }
             function toggleMenu() {
-                isMenuOpen ? closeMenu() : openMenu();
+                isMenuOpen = !isMenuOpen;
+                mobileMenu.classList.toggle('hidden', !isMenuOpen);
+                mobileMenu.classList.toggle('flex', isMenuOpen);
+                hamburgerIcon.classList.toggle('hidden', isMenuOpen);
+                closeIcon.classList.toggle('hidden', !isMenuOpen);
             }
 
             mobileMenuButton.addEventListener('click', toggleMenu);
             mobileNavLinks.forEach(link => {
-                link.addEventListener('click', closeMenu);
+                link.addEventListener('click', () => {
+                    if (isMenuOpen) toggleMenu();
+                });
             });
 
-            // --- Active Nav Link on Scroll ---
             const activeClasses = ['bg-blue-500/20', 'text-blue-300', 'border', 'border-blue-400'];
-            const sectionVisibility = new Map();
-            const observerOptions = {
-                root: null,
-                rootMargin: "-40% 0px -60% 0px"
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    sectionVisibility.set(entry.target.id, entry.isIntersecting);
-                });
-
-                let visibleSectionId = null;
-                // Find the first section that is marked as intersecting
-                for (const [id, isVisible] of sectionVisibility.entries()) {
-                    if (isVisible) {
-                        visibleSectionId = id;
-                        break;
-                    }
-                }
-
+            const sectionObserver = new IntersectionObserver((entries) => {
+                const visibleSectionId = entries.find(e => e.isIntersecting)?.target.id;
                 navLinks.forEach(link => {
                     link.classList.remove(...activeClasses);
                     if (link.getAttribute('href') === `#${visibleSectionId}`) {
                         link.classList.add(...activeClasses);
                     }
                 });
-            }, observerOptions);
+            }, { rootMargin: "-40% 0px -60% 0px" });
 
-            sections.forEach(section => {
-                sectionVisibility.set(section.id, false);
-                observer.observe(section);
-            });
+            sections.forEach(section => sectionObserver.observe(section));
 
-
-            // --- Scroll Animations for Sections ---
             const scrollElements = document.querySelectorAll('.scroll-animate');
             const scrollObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -584,9 +756,25 @@
             }, { threshold: 0.1 });
             scrollElements.forEach(el => scrollObserver.observe(el));
 
-            // --- Typing Animation ---
+            const lastLoginEl = document.getElementById('last-login');
+            const liveClockEl = document.getElementById('live-clock');
+
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+                if (liveClockEl) liveClockEl.textContent = timeString;
+            }
+
+            if (lastLoginEl) {
+                const loginDate = new Date(); // Use current date for "Last login"
+                const dateString = loginDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                lastLoginEl.textContent = `Last login: ${dateString}`;
+            }
+
+            setInterval(updateTime, 1000);
+            updateTime();
+
             const typingTextElement = document.getElementById('typing-text');
-            const typingCursor = document.querySelector('.typing-cursor');
             const words = ["Software Developer", "Published Author", "Poet"];
             let wordIndex = 0;
             let charIndex = 0;
@@ -595,29 +783,124 @@
             function type() {
                 const currentWord = words[wordIndex];
                 const typingSpeed = isDeleting ? 100 : 150;
-                // Set cursor height based on the parent's line-height/font-size
-                typingCursor.style.height = `1em`;
+                if (typingTextElement) {
+                    const typingCursor = typingTextElement.nextElementSibling;
+                    if (typingCursor) typingCursor.style.height = `1em`;
 
-                if (isDeleting) {
-                    typingTextElement.textContent = currentWord.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    typingTextElement.textContent = currentWord.substring(0, charIndex + 1);
-                    charIndex++;
-                }
+                    typingTextElement.textContent = currentWord.substring(0, charIndex);
 
-                if (!isDeleting && charIndex === currentWord.length) {
-                    setTimeout(() => isDeleting = true, 2000);
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    wordIndex = (wordIndex + 1) % words.length;
+                    if (!isDeleting && charIndex < currentWord.length) {
+                        charIndex++;
+                        setTimeout(type, typingSpeed);
+                    } else if (isDeleting && charIndex > 0) {
+                        charIndex--;
+                        setTimeout(type, typingSpeed);
+                    } else {
+                        isDeleting = !isDeleting;
+                        if (!isDeleting) {
+                            wordIndex = (wordIndex + 1) % words.length;
+                        }
+                        setTimeout(type, isDeleting ? 2000 : 500);
+                    }
                 }
-                setTimeout(type, typingSpeed);
             }
-            type();
+            if (typingTextElement) type();
+
+            const likeButtons = document.querySelectorAll('.like-button');
+            likeButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const icon = button.querySelector('i');
+                    icon.classList.toggle('far');
+                    icon.classList.toggle('fas');
+                });
+            });
+
+            const heroSection = document.getElementById('hero');
+            const terminalCard = document.getElementById('terminal-card');
+            const canvas = document.getElementById('hero-canvas');
+
+            if (heroSection && terminalCard) {
+                // This effect is mouse-dependent, so it won't activate on touch devices
+                heroSection.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    const { offsetWidth, offsetHeight } = heroSection;
+                    const x = (clientX - offsetWidth / 2) / (offsetWidth / 2);
+                    const y = (clientY - offsetHeight / 2) / (offsetHeight / 2);
+                    terminalCard.style.transform = `perspective(1000px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg)`;
+                });
+
+                heroSection.addEventListener('mouseleave', () => {
+                    terminalCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                });
+            }
+
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+
+                class Particle {
+                    constructor(x, y, dirX, dirY, size, color) {
+                        this.x = x; this.y = y; this.dirX = dirX; this.dirY = dirY; this.size = size; this.color = color;
+                    }
+                    draw() {
+                        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill();
+                    }
+                    update() {
+                        if (this.x > canvas.width || this.x < 0) this.dirX = -this.dirX;
+                        if (this.y > canvas.height || this.y < 0) this.dirY = -this.dirY;
+                        this.x += this.dirX; this.y += this.dirY; this.draw();
+                    }
+                }
+
+                function init() {
+                    particles = [];
+                    // Adjust particle density based on screen size for better mobile performance
+                    let numParticles = (canvas.height * canvas.width) / (window.innerWidth < 768 ? 20000 : 9000);
+                    for (let i = 0; i < numParticles; i++) {
+                        let size = (Math.random() * 2) + 1;
+                        let x = Math.random() * (innerWidth - size * 2) + size * 2;
+                        let y = Math.random() * (innerHeight - size * 2) + size * 2;
+                        let dirX = (Math.random() * .4) - .2;
+                        let dirY = (Math.random() * .4) - .2;
+                        particles.push(new Particle(x, y, dirX, dirY, size, 'rgba(122, 162, 247, 0.5)'));
+                    }
+                }
+
+                function connect() {
+                    for (let a = 0; a < particles.length; a++) {
+                        for (let b = a; b < particles.length; b++) {
+                            let dist = ((particles[a].x - particles[b].x) ** 2) + ((particles[a].y - particles[b].y) ** 2);
+                            if (dist < (canvas.width / 7) * (canvas.height / 7)) {
+                                let opacity = 1 - (dist / 20000);
+                                ctx.strokeStyle = `rgba(122, 162, 247, ${opacity})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.beginPath(); ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
+                            }
+                        }
+                    }
+                }
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    ctx.clearRect(0, 0, innerWidth, innerHeight);
+                    particles.forEach(p => p.update());
+                    connect();
+                }
+
+                function handleResize() {
+                    canvas.width = innerWidth;
+                    canvas.height = innerHeight;
+                    init();
+                }
+
+                window.addEventListener('resize', handleResize);
+
+                handleResize();
+                animate();
+            }
         });
     </script>
-
 </body>
 
 </html>
