@@ -292,8 +292,14 @@
     </div>
 
     <main>
-        <section id="" class="min-h-screen flex items-center justify-center text-left relative overflow-hidden">
-            <canvas id="-canvas"></canvas>
+        <!-- 
+          FIX: The 'id' attribute was empty. Changed to id="hero" to match the JavaScript.
+        -->
+        <section id="hero" class="min-h-screen flex items-center justify-center text-left relative overflow-hidden">
+            <!-- 
+              FIX: The 'id' attribute was "-canvas". Changed to id="hero-canvas" to match the JavaScript.
+            -->
+            <canvas id="hero-canvas"></canvas>
             <div class="grid-overlay"></div>
 
             <div class="container mx-auto px-4 sm:px-6 z-10 w-full max-w-4xl">
